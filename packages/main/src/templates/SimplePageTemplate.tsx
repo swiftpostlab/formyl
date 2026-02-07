@@ -25,6 +25,7 @@ const SimplePageTemplate: React.FC<Props> = ({ children }) => {
                 component="main"
                 id="main"
                 marginX={staticTheme.spacing(2)}
+                paddingX={staticTheme.spacing(2)}
                 contentMaxWidth={contentMaxWidth}
               >
                 {children}
