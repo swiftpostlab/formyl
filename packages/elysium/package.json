@@ -1,0 +1,24 @@
+{
+  "name": "@swiftpost/elysium",
+  "version": "0.0.1",
+  "author": "SwiftPost <swiftpostlab@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@emotion/cache": "^11.14",
+    "@emotion/react": "^11.14",
+    "@emotion/styled": "^11.14",
+    "@mui/material": "^7.3",
+    "@mui/material-nextjs": "^7.3"
+  },
+  "peerDependencies": {
+    "next": "^15",
+    "react": "^17 || ^18 || ^19",
+    "react-dom": "^17 || ^18 || ^19",
+    "typescript": "^5"
+  }
+}

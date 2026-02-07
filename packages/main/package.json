@@ -1,0 +1,27 @@
+{
+  "name": "@swiftpost/main",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "yarn lint --fix"
+  },
+  "dependencies": {
+    "@swiftpost/elysium": "*",
+    "@mui/icons-material": "^7"
+  },
+  "peerDependencies": {
+    "@mui/material": "^7",
+    "next": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@swiftpost/config": "*",
+    "typescript": "*",
+    "typescript-eslint": "*"
+  }
+}

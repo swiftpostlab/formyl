@@ -1,0 +1,28 @@
+{
+  "name": "@swiftpost/config",
+  "version": "0.0.1",
+  "author": "SwiftPost <swiftpostlab@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9",
+    "@types/eslint__js": "^8",
+    "eslint": "^9",
+    "eslint-config-next": "15",
+    "eslint-config-prettier": "^10",
+    "eslint-plugin-prettier": "^5",
+    "eslint-plugin-react": "^7",
+    "globals": "^16",
+    "typescript-eslint": "^8.41.0"
+  },
+  "peerDependencies": {
+    "typescript": "*",
+    "@types/node": "*",
+    "@types/react":"*",
+    "@types/react-dom": "*"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@swiftpost/next-static-template",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Batteries included React template",
+  "main": "index.js",
+  "repository": "git@github.com:swiftpostlab/swiftpost-next-static-template.git",
+  "author": "SwiftPost <swiftpostlab@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "yarn workspace @swiftpost/main dev",
+    "build": "yarn workspace @swiftpost/main build",
+    "start": "yarn workspace @swiftpost/main start",
+    "lint": "turbo lint",
+    "lint:ci": "turbo lint --ui stream",
+    "lint:fix": "turbo lint:fix"
+  },
+  "dependencies": {
+    "next": "^15.5.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "prettier": "^3.8",
+    "turbo": "^2.7",
+    "typescript": "^5.9.3"
+  }
+}

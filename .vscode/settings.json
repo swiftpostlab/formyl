@@ -1,0 +1,19 @@
+{
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.markdownlint": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "json.format.enable": true,
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "cSpell.words": [
+    "Klarna",
+    "swiftpost"
+  ]
+}
