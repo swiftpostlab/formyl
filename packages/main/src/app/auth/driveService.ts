@@ -1,13 +1,36 @@
 const CONFIG_FILENAME = 'app_config.json';
-const MULTIPART_BOUNDARY = 'foo_bar_77';
+
+// Custom error to help UI detect when to re-authenticate
+export class TokenExpiredError extends Error {
+  constructor() {
+    super('Google Drive access token expired');
+    this.name = 'TokenExpiredError';
+  }
+}
 
 interface DriveFile {
   id: string;
   name: string;
 }
 
+interface DriveListResponse {
+  files: DriveFile[];
+}
+
 /**
- * 1. Find the existing config file in the hidden AppData folder
+ * Type Guard to ensure API response is valid
+ */
+const isValidDriveListResponse = (data: unknown): data is DriveListResponse => {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'files' in data &&
+    Array.isArray((data as { files: unknown }).files)
+  );
+};
+
+/**
+ * 1. Find the existing config file
  */
 export const findConfigFile = async (
   accessToken: string,
@@ -25,45 +48,49 @@ export const findConfigFile = async (
   );
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new TokenExpiredError();
+    }
     throw new Error(`Error searching for file: ${response.statusText}`);
   }
 
   const data = (await response.json()) as unknown;
-  return (
-      typeof data === 'object' &&
-        data != null &&
-        'files' in data &&
-        Array.isArray(data.files) &&
-        data.files.length > 0
-    ) ?
-      (data.files[0] as DriveFile)
-    : null;
+
+  if (isValidDriveListResponse(data) && data.files.length > 0) {
+    return data.files[0];
+  }
+
+  return null;
 };
 
 /**
- * 2. Upload (Create or Update) the Config File
+ * 2. Upload (Create or Update)
  */
 export const saveConfigFile = async (
   accessToken: string,
   content: object,
   existingFileId?: string,
 ): Promise<string> => {
+  // Generate a random boundary string to avoid collisions with data
+  const boundary = `swiftpost_boundary_${Date.now().toString(36)}`;
+
   const metadata = {
     name: CONFIG_FILENAME,
     mimeType: 'application/json',
     parents: existingFileId ? undefined : ['appDataFolder'],
   };
 
+  // Construct the body strictly following RFC 1341
   const body = [
-    `--${MULTIPART_BOUNDARY}`,
+    `--${boundary}`,
     'Content-Type: application/json; charset=UTF-8',
     '',
     JSON.stringify(metadata),
-    `--${MULTIPART_BOUNDARY}`,
+    `--${boundary}`,
     'Content-Type: application/json',
     '',
     JSON.stringify(content, null, 2),
-    `--${MULTIPART_BOUNDARY}--`,
+    `--${boundary}--`,
   ].join('\r\n');
 
   const method = existingFileId ? 'PATCH' : 'POST';
@@ -76,12 +103,15 @@ export const saveConfigFile = async (
     method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': `multipart/related; boundary=${MULTIPART_BOUNDARY}`,
+      'Content-Type': `multipart/related; boundary=${boundary}`,
     },
     body: body,
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new TokenExpiredError();
+    }
     const errorText = await response.text();
     throw new Error(`Failed to save file: ${errorText}`);
   }
@@ -91,7 +121,7 @@ export const saveConfigFile = async (
 };
 
 /**
- * 3. Load the content of the Config File
+ * 3. Load content
  */
 export const loadConfigFile = async <TData = unknown>(
   accessToken: string,
@@ -108,6 +138,9 @@ export const loadConfigFile = async <TData = unknown>(
   );
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new TokenExpiredError();
+    }
     throw new Error(`Failed to download file: ${response.statusText}`);
   }
 

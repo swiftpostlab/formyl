@@ -68,6 +68,11 @@ export const googleAuthErrorTypes = {
   POPUP_CLOSED: 'popup_closed',
 
   /**
+   * Added: The user clicked "Cancel" or "Deny" in the consent screen.
+   */
+  ACCESS_DENIED: 'access_denied',
+
+  /**
    * The Google library failed to initialize or load the iframe required for the popup.
    * Often happens due to network issues or restrictive Content Security Policy (CSP).
    */
@@ -79,7 +84,7 @@ export type GoogleAuthErrorType =
 
 export interface GoogleAuthError {
   type: GoogleAuthErrorType;
-  message: string;
+  message?: string;
   stack?: string;
 }
 
@@ -91,8 +96,6 @@ export const isGoogleAuthError = (error: unknown): error is GoogleAuthError => {
     typeof error.type === 'string' &&
     Object.values(googleAuthErrorTypes).includes(
       error.type as GoogleAuthErrorType,
-    ) &&
-    'message' in error &&
-    typeof error.message === 'string'
+    )
   );
 };

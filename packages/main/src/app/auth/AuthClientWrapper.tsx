@@ -35,7 +35,7 @@ const AuthClientWrapper = () => {
             }}
             onError={(e) => {
               if (isGoogleAuthError(e)) {
-                setErrorString(e.message);
+                setErrorString(e.message ?? 'Unknown error, please try again.');
                 return;
               }
 
