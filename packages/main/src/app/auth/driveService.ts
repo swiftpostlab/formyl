@@ -38,7 +38,7 @@ export const findConfigFile = async (
   const query = `name = '${CONFIG_FILENAME}' and 'appDataFolder' in parents and trashed = false`;
 
   const response = await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=files(id, name)`,
+    `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&spaces=appDataFolder&fields=files(id, name)`,
     {
       method: 'GET',
       headers: {

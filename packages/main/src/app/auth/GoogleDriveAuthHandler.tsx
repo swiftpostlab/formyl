@@ -72,7 +72,8 @@ const GoogleDriveAuthHandler: React.FC<Props> = ({
     }
 
     // 2. Trigger the popup
-    client.requestAccessToken({ prompt: '' });
+    // 'prompt: consent' forces the screen to appear again
+    client.requestAccessToken({ prompt: 'consent' });
   };
 
   return (
