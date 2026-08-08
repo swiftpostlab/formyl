@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@swiftpost/elysium": "*",
-    "@mui/icons-material": "^7"
+    "@mui/icons-material": "^9"
   },
   "peerDependencies": {
     "@mui/material": "^7",
